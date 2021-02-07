@@ -1,0 +1,14 @@
+{
+  "name": "sachsen-impfnotifier",
+  "version": "0.1.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "author": "sibbl",
+  "license": "MIT",
+  "devDependencies": {
+    "node-notifier": "^9.0.0",
+    "playwright": "^1.8.0"
+  }
+}
