@@ -10,7 +10,7 @@ Node.js and npm are required. You also need to be registered on the vaccination 
 2. Set the following environment variables
    | Env var | Required | Description |
    | ------- | -------- | ----------- |
-   | USERNAME | Yes | Your so called "Vorgangskennung" |
+   | USER_NAME | Yes | Your so called "Vorgangskennung" |
    | PASSWORD | Yes | Your Password |
    | CENTRES | Yes | Comma separated list of centres to check: Belgern-Schildau, Borna, Kamenz, Chemnitz, Dresden, Treuen, Annaberg-Buchholz, Löbau, Leipzig, Mittweida, Pirna, Riesa, Zwickau |
    | DELAY | No | Delay between each check (5 min by default) |
