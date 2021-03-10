@@ -10,6 +10,7 @@ const { chromium } = require('playwright'),
   await page.goto(
     'https://sachsen.impfterminvergabe.de/civ.public/start.html?oe=00.00.IM&mode=cc&cc_key=IOAktion'
   )
+  await page.click('button:has(span:is(:text("Weiter")))')
 
   await page.waitForSelector('h3:is(:text("Zugangsdaten"))')
   await page.fill('text=Vorgangskennung', process.env.USER_NAME)
