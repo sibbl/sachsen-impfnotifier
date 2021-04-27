@@ -1,3 +1,4 @@
+require('dotenv').config()
 const { chromium } = require('playwright'),
   notifier = require('node-notifier')
 
