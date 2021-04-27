@@ -13,6 +13,6 @@ Node.js and npm are required. You also need to be registered on the vaccination 
    | USER_NAME | Yes | Your so called "Vorgangskennung" |
    | PASSWORD | Yes | Your Password |
    | CENTRES | Yes | Comma separated list of centres to check: Belgern-Schildau, Borna, Kamenz, Chemnitz, Dresden, Treuen, Annaberg-Buchholz, Löbau, Leipzig, Mittweida, Pirna, Riesa, Zwickau |
-   | DELAY | No | Delay between each check (5 min by default) |
+   | DELAY | No | Delay between each check in ms (300000 ms = 5 min by default) |
 3. Run `node index.js`
 4. Wait for the notification and be lucky
