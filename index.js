@@ -36,8 +36,12 @@ const MAX_32_BIT_SIGNED_INTEGER = Math.pow(2, 31) - 1
       await page.click(`[role=listbox] li:is(:text("${currentCentre}"))`)
       await page.click('button:has(span:is(:text("Weiter")))')
 
-      const successElement = await page.$('"keinen Termin"')
-      if (successElement !== null) {
+      await Promise.race([
+        page.waitForSelector('h2:is(:text("Terminauswahl"))'),
+        page.waitForSelector('h2:is(:text("Terminvergabe"))'),
+      ])
+      const noSuccessElement = await page.$('text=/keinen\\s*Termin/i')
+      if (noSuccessElement === null) {
         console.log(`SUCCESS FOR ${currentCentre}`)
         notifier.notify({
           title: 'Impftermin gefunden!',
