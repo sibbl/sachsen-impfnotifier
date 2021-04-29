@@ -4,18 +4,14 @@
   "endOfLine": "lf",
   "htmlWhitespaceSensitivity": "css",
   "insertPragma": false,
-  "jsxBracketSameLine": false,
-  "jsxSingleQuote": false,
+  "parser": "babel",
   "printWidth": 80,
   "proseWrap": "preserve",
   "quoteProps": "as-needed",
   "requirePragma": false,
-  "semi": false,
+  "semi": true,
   "singleQuote": true,
   "tabWidth": 2,
-  "trailingComma": "es5",
-  "useTabs": false,
-  "vueIndentScriptAndStyle": false,
-  "filepath": "/Users/danieltaschik/Downloads/fork/sachsen-impfnotifier/index.js",
-  "parser": "babel"
+  "trailingComma": "all",
+  "useTabs": false
 }
