@@ -49,7 +49,9 @@ const MAX_32_BIT_SIGNED_INTEGER = Math.pow(2, 31) - 1
         })
         return
       }
-      console.log(`No success for ${currentCentre}`)
+      console.log(
+        `No success for ${currentCentre} (${new Date().toLocaleTimeString()})`
+      )
       await page.click('button:has(span:is(:text("Zurück")))')
     }
 
