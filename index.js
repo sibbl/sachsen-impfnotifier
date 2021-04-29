@@ -3,11 +3,13 @@ const { chromium } = require('playwright'),
   notifier = require('node-notifier');
 
 const MAX_32_BIT_SIGNED_INTEGER = Math.pow(2, 31) - 1;
+const browserOptions = { headless: false, ...(process.env.BROWSER_OPTIONS ? JSON.parse(process.env.BROWSER_OPTIONS) : {}) };
+
 (async () => {
   const centres = process.env.CENTRES.split(',').map((x) => x.trim());
   const delay = parseInt(process.env.DELAY || 300000);
 
-  const browser = await chromium.launch({ headless: false });
+  const browser = await chromium.launch(browserOptions);
   const page = await browser.newPage();
   page.setDefaultTimeout(90000);
   await page.goto(
