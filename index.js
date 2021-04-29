@@ -10,6 +10,7 @@ const MAX_32_BIT_SIGNED_INTEGER = Math.pow(2, 31) - 1
 
   const browser = await chromium.launch({ headless: false })
   const page = await browser.newPage()
+  page.setDefaultTimeout(90000)
   await page.goto(
     'https://sachsen.impfterminvergabe.de/civ.public/start.html?oe=00.00.IM&mode=cc&cc_key=IOAktion'
   )
