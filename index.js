@@ -95,15 +95,13 @@ async function findAppointment(page) {
 
       await page.click('button:has(span:is(:text("Weiter")))');
 
-      const errorSelector = page.waitForSelector(
-        'h2:is(:text("Fehlermeldung"))',
-      );
       await Promise.race([
         page.waitForSelector('h2:is(:text("Terminauswahl"))'),
         page.waitForSelector('h2:is(:text("Terminvergabe"))'),
-        errorSelector,
+        page.waitForSelector('h2:is(:text("Fehlermeldung"))'),
       ]);
-      if (errorSelector) {
+      const isErrorPage = await page.$('h2:is(:text("Fehlermeldung"))');
+      if (isErrorPage) {
         // we may get here if partner login is wrong
         console.error(
           'An error occured, please see the browser and check you config.',
