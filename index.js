@@ -5,6 +5,16 @@ const { chromium } = require('playwright'),
   TelegramBot = require('node-telegram-bot-api');
 
 const MAX_32_BIT_SIGNED_INTEGER = Math.pow(2, 31) - 1;
+
+const username = process.env.USER_NAME;
+const password = process.env.PASSWORD;
+const centresString = process.env.CENTRES;
+if (!username) throw new Exception('USER_NAME variable missing');
+if (!password) throw new Exception('PASSWORD variable missing');
+if (!centresString) throw new Exception('CENTRES variable missing');
+
+const centres = centresString.split(',').map((x) => x.trim());
+const delay = parseInt(process.env.DELAY || 300000);
 const browserOptions = {
   headless: false,
   ...(process.env.BROWSER_OPTIONS
@@ -22,12 +32,30 @@ if (process.env.TELEGRAM_TOKEN && process.env.TELEGRAM_CHAT_ID) {
 }
 
 (async () => {
-  const centres = process.env.CENTRES.split(',').map((x) => x.trim());
-  const delay = parseInt(process.env.DELAY || 300000);
-
   const browser = await chromium.launch(browserOptions);
-  const page = await browser.newPage();
-  page.setDefaultTimeout(90000);
+  let page;
+  while (true) {
+    if (browser.isConnected() === false) {
+      console.error('Browser not connected, cannot continue :(');
+      return;
+    }
+    try {
+      page = await browser.newPage();
+      page.setDefaultTimeout(90000);
+      return await findAppointment(page);
+    } catch (err) {
+      console.log(`There was an error: ${err}.`);
+      console.log(`Restarting from scratch...`);
+      if (page && page.isClosed() === false) {
+        page.close();
+      }
+    }
+  }
+})();
+
+async function findAppointment(page) {
+  console.log(`Starting with ${username}`);
+
   await page.goto(
     'https://sachsen.impfterminvergabe.de/civ.public/start.html?oe=00.00.IM&mode=cc&cc_key=IOAktion',
   );
@@ -36,8 +64,8 @@ if (process.env.TELEGRAM_TOKEN && process.env.TELEGRAM_CHAT_ID) {
   });
 
   await page.waitForSelector('h3:is(:text("Zugangsdaten"))');
-  await page.fill('text=Vorgangskennung', process.env.USER_NAME);
-  await page.fill('text=Passwort', process.env.PASSWORD);
+  await page.fill('text=Vorgangskennung', username);
+  await page.fill('text=Passwort', password);
   await page.click('button:has(span:is(:text("Weiter")))');
   await page.click(
     'text=Termin zur Coronaschutzimpfung vereinbaren oder ändern',
@@ -73,7 +101,7 @@ if (process.env.TELEGRAM_TOKEN && process.env.TELEGRAM_CHAT_ID) {
     console.log(`Waiting for ${delay}ms`);
     await waitFor(delay);
   }
-})();
+}
 
 async function waitFor(duration) {
   return new Promise((resolve) => {
