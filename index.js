@@ -75,6 +75,7 @@ async function findAppointment(page) {
   );
   await page.click('button:has(span:is(:text("Weiter")))');
 
+  let partnerEntered = false;
   while (true) {
     for (let currentCentre of centres) {
       await page.waitForSelector('h3:is(:text("Vorgaben für Terminsuche"))');
@@ -84,13 +85,14 @@ async function findAppointment(page) {
       await centreSelectCombobox.click();
       await page.click(`[role=listbox] li:is(:text("${currentCentre}"))`);
 
-      if (partnerUsername && partnerPassword) {
+      if (!partnerEntered && partnerUsername && partnerPassword) {
         await page.click('label >> text=/Partnertermin/i');
         await page.fill(
           'text="Vorgangskennung Ihres Partners*"',
           partnerUsername,
         );
         await page.fill('text="Passwort Ihres Partners"', partnerPassword);
+        partnerEntered = true;
       }
 
       await page.click('button:has(span:is(:text("Weiter")))');
