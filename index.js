@@ -13,6 +13,9 @@ if (!username) throw new Exception('USER_NAME variable missing');
 if (!password) throw new Exception('PASSWORD variable missing');
 if (!centresString) throw new Exception('CENTRES variable missing');
 
+const partnerUsername = process.env.PARTNER_USER_NAME;
+const partnerPassword = process.env.PARTNER_PASSWORD;
+
 const centres = centresString.split(',').map((x) => x.trim());
 const delay = parseInt(process.env.DELAY || 300000);
 const browserOptions = {
@@ -80,12 +83,33 @@ async function findAppointment(page) {
       );
       await centreSelectCombobox.click();
       await page.click(`[role=listbox] li:is(:text("${currentCentre}"))`);
+
+      if (partnerUsername && partnerPassword) {
+        await page.click('label >> text=/Partnertermin/i');
+        await page.fill(
+          'text="Vorgangskennung Ihres Partners*"',
+          partnerUsername,
+        );
+        await page.fill('text="Passwort Ihres Partners"', partnerPassword);
+      }
+
       await page.click('button:has(span:is(:text("Weiter")))');
 
+      const errorSelector = page.waitForSelector(
+        'h2:is(:text("Fehlermeldung"))',
+      );
       await Promise.race([
         page.waitForSelector('h2:is(:text("Terminauswahl"))'),
         page.waitForSelector('h2:is(:text("Terminvergabe"))'),
+        errorSelector,
       ]);
+      if (errorSelector) {
+        // we may get here if partner login is wrong
+        console.error(
+          'An error occured, please see the browser and check you config.',
+        );
+        return;
+      }
       const noSuccessElement = await page.$('text=/keinen\\s*Termin/i');
       if (noSuccessElement === null) {
         console.log(`SUCCESS FOR ${currentCentre}`);
