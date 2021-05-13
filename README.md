@@ -19,6 +19,9 @@ Node.js and npm are required. You also need to be registered on the vaccination 
    | PARTNER_PASSWORD | No | Password of your partner |
    | TELEGRAM_TOKEN | No | Telegram bot token, if you want additionally to be notified via Telegram |
    | TELEGRAM_CHAT_ID | No | Telegram chat ID which you want to be notified at |
+   | MATRIX_HOMESERVER | No | Matrix homeserver URL, if you want additionally to be notified via Matrix |
+   | MATRIX_TOKEN | No | Matrix access token |
+   | MATRIX_ROOM_ID | No | Matrix room ID to which notifications should be sent, the bot has to be invited to this room |
 
 3. Run `node index.js`
 4. Wait for the notification on your device (or Telegram, if set up additionally) and be lucky

@@ -2,7 +2,8 @@ require('dotenv').config();
 process.env.NTBA_FIX_319 = 1; // disable telegram deprecated warnings on start up
 const { chromium } = require('playwright'),
   notifier = require('node-notifier'),
-  TelegramBot = require('node-telegram-bot-api');
+  TelegramBot = require('node-telegram-bot-api'),
+  MatrixBot = require('matrix-bot-sdk');
 
 const MAX_32_BIT_SIGNED_INTEGER = Math.pow(2, 31) - 1;
 
@@ -32,6 +33,20 @@ if (process.env.TELEGRAM_TOKEN && process.env.TELEGRAM_CHAT_ID) {
     return bot.sendMessage(process.env.TELEGRAM_CHAT_ID, text);
   };
   console.log('Telegram connection enabled');
+}
+
+let notifyMatrixBot = null;
+if (process.env.MATRIX_HOMESERVER && process.env.MATRIX_TOKEN && process.env.MATRIX_ROOM_ID) {
+  const storage = new MatrixBot.SimpleFsStorageProvider(".matrix.json");
+  let matrixClient = new MatrixBot.MatrixClient(process.env.MATRIX_HOMESERVER, process.env.MATRIX_TOKEN, storage);
+  MatrixBot.AutojoinRoomsMixin.setupOnClient(matrixClient);
+  matrixClient.start().then(() => console.log('Matrix connection enabled'));
+  notifyMatrixBot = (text) => {
+    return matrixClient.sendMessage(process.env.MATRIX_ROOM_ID, {
+      "msgtype": "m.text",
+      "body": text,
+    });
+  }
 }
 
 (async () => {
@@ -141,5 +156,8 @@ async function notifySuccess(successCentre) {
   });
   if (notifyTelegramBot) {
     await notifyTelegramBot(`${process.env.USER_NAME}: ${message}`);
+  }
+  if (notifyMatrixBot) {
+    await notifyMatrixBot(`${process.env.USER_NAME}: ${message}`);
   }
 }
