@@ -11,6 +11,7 @@
     "dotenv": "^8.2.0",
     "node-notifier": "^9.0.0",
     "node-telegram-bot-api": "^0.53.0",
-    "playwright": "^1.8.0"
+    "playwright": "^1.8.0",
+    "matrix-bot-sdk": "^0.5.17"
   }
 }
