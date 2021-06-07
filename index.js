@@ -18,7 +18,7 @@ const partnerUsername = process.env.PARTNER_USER_NAME;
 const partnerPassword = process.env.PARTNER_PASSWORD;
 
 const centres = centresString.split(',').map((x) => x.trim());
-const delay = parseInt(process.env.DELAY || 300000);
+const delay = parseInt(process.env.DELAY || (Math.random() * (500000 - 100000) + 100000));
 const browserOptions = {
   headless: false,
   ...(process.env.BROWSER_OPTIONS
