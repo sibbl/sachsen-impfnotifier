@@ -1,6 +1,6 @@
 # Sachsen Impfnotifier
 
-This tool regularly checks the [vaccination portal of Saxony, Germany](https://sachsen.impfterminvergabe.de) for available appointments for specified vaccination centres.
+This tool regularly checks the [vaccination portal of Saxony, Germany](https://sachsen.impfterminvergabe.de) for available appointments for specified vaccination centres. It simulates mouse clicks in a real browser from the login to the page where a found appointment needs to be confirmed.
 
 ## Usage
 
