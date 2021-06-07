@@ -2,6 +2,10 @@
 
 This tool regularly checks the [vaccination portal of Saxony, Germany](https://sachsen.impfterminvergabe.de) for available appointments for specified vaccination centres. It simulates mouse clicks in a real browser from the login to the page where a found appointment needs to be confirmed.
 
+It still requires some luck to get behind the waiting area and then find an appointment. It's recommended to watch [the DRK Sachsen Twitter channel](https://twitter.com/drksachsen) to get the release times of new appointments. 
+
+After configuring the tool as described below, it can be left running on any of your machines and when an appointment will be found and needs to be confirmed, a system notification pops up. Additionally you can configure a Telegram or Matrix bot to get notified there as well.
+
 ## Usage
 
 Node.js and npm are required. You also need to be registered on the vaccination portal before being able to use this tool.
